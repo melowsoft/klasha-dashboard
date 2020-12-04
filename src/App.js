@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react'
+import MainContainer from './components/MainContainer/MainContainer';
+import SideNav from './components/SideNav/SideNav';
+import MainContent from './components/MainContent/MainContent';
+import {Wrapper} from "./AppStyles"
+import MobileNav from './components/MobileNav/MobileNav';
+
+
 
 function App() {
+  const [menuStatus, menuStatusSetter] = useState('open')
+  const [style, styleSetter] = useState('menu')
+
+  const switcher = () => {
+    switch(menuStatus)
+    {
+      case "open":
+        menuStatusSetter('close')
+        styleSetter("menu active")
+        return;
+      case "close":
+        menuStatusSetter('open')
+        styleSetter("menu")
+        return;
+    }
+   }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Wrapper>
+        <MainContainer>
+          <SideNav />
+          <MobileNav style={style} switcher={switcher}/>
+          <MainContent switcher={switcher}/>
+        </MainContainer>
+    </Wrapper>
   );
 }
 
